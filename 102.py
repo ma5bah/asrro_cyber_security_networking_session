@@ -1,20 +1,17 @@
 # pip install python-nmap
-# Usage: python nmap_port_scanner.py
+# Usage: python 102.py
 
 import nmap
-
-from simple_port_scanner import target_ip
-
 
 # Function to scan open ports and detect OS
 def scan_target(target_ip):
     # Initialize the nmap scanner
     nm = nmap.PortScanner()
 
-    print(f"Scanning {target_ip} for open ports and OS detection...")
+    print(f"Scanning {target_ip} for open ports...")
 
     # Scan ports and enable OS detection
-    nm.scan(target_ip, '1-10000', arguments='-A')
+    nm.scan(target_ip, '1-6000', arguments='-sV')
 
     print(nm.csv())
     # Gather open ports

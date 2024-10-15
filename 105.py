@@ -1,9 +1,6 @@
 import psycopg2
-import itertools
-import string
-import time
 import requests
-# Connection details for PostgreSQL (except password)
+
 host = "localhost"
 port = "5555"
 dbname = "postgres"
