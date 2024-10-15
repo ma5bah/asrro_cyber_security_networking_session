@@ -1,0 +1,58 @@
+version: '3.8'
+services:
+  dvwa:
+    image: ghcr.io/digininja/dvwa:latest
+    environment:
+      - DB_SERVER=db
+    depends_on:
+      - db
+    networks:
+      - app-network
+    ports:
+      - 127.0.0.1:4280:80
+    restart: unless-stopped
+
+  db:
+    image: docker.io/library/mariadb:10
+    environment:
+      - MYSQL_ROOT_PASSWORD=dvwa
+      - MYSQL_DATABASE=dvwa
+      - MYSQL_USER=dvwa
+      - MYSQL_PASSWORD=p@ssw0rd
+    volumes:
+      - dvwa-data:/var/lib/mysql
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  juice-shop:
+    image: bkimminich/juice-shop
+    networks:
+      - app-network
+    ports:
+      - 127.0.0.1:3000:3000
+    restart: unless-stopped
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - '2222:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+volumes:
+  dvwa-data:
+  db:
+    driver: local
+
+networks:
+  app-network:
+
+
+# docker compose -f dvwa_compose.yml up -d
